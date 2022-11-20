@@ -1,8 +1,15 @@
 PARTIE 1 
 
-concept = correction syntaxique et semantique de la TBox, ABox et expressions user.
+* concept = correction syntaxique et semantique de la TBox, ABox et expressions user.
 
 - correction semantique : verifier tous les identificateurs de concepts (cnamea et cnamena), instance (iname) et rôles (rname)
 => pour chaque identificateur on verifie qu il est dans la liste L avec setof(X,identificateur, L)
 
 - correction syntaxique : transformer grammaire en analyseur
+
+
+* autoref 
+
+*traitemenT_TBox = conception(TBox) puis identificateurs atomiques et nnf (rappels partie 4)
+
+*traitemenT_ABox = conception(ABox) puis identificateurs atomiques et nnf (rappels partie 4)
