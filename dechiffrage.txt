@@ -10,6 +10,6 @@ PARTIE 1
 
 * autoref 
 
-*traitemenT_TBox = identificateurs atomiques et nnf (rappels partie 4)
+*traitemenT_TBox = conception(TBox) puis identificateurs atomiques et nnf (rappels partie 4)
 
-*traitemenT_ABox = identificateurs atomiques et nnf (rappels partie 4)
+*traitemenT_ABox = conception(ABox) puis identificateurs atomiques et nnf (rappels partie 4)
