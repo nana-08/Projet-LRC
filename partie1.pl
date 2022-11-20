@@ -46,7 +46,5 @@ e)))),
 /* A-Box */
 [(michelAnge,personne), (david,sculpture), (sonnets,livre),
 (vinci,personne), (joconde,objet)]
-et l’autre qui contient les assertions de rôles :
-10
 [(michelAnge, david, aCree), (michelAnge, sonnet, aEcrit),(vinci,
 joconde, aCree)]
