@@ -48,3 +48,8 @@ e)))),
 (vinci,personne), (joconde,objet)]
 [(michelAnge, david, aCree), (michelAnge, sonnet, aEcrit),(vinci,
 joconde, aCree)]
+
+setof(Motif, But, Liste).
+/* setof/3 crée une liste des instantiations de Motif par retours arrières sur But et unifie le
+résultat dans Liste. Si le But n’a pas de solution, setof retournera la liste vide []. Il y a
+suppression des doublons. */
