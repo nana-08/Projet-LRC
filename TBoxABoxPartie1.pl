@@ -19,7 +19,7 @@ cnamena(editeur).
 cnamena(sculpteur).
 /* cnamena(sculpture). test autoref */
 cnamena(parent).
-cnamena
+cnamena(parentAuteur).
 
 /* identificateurs des instances */
 iname(michelAnge).
