@@ -2,6 +2,8 @@ equiv(sculpteur,and(personne,some(aCree,sculpture))).
 equiv(auteur,and(personne,some(aEcrit,livre))).
 equiv(editeur,and(personne,and(not(some(aEcrit,livre)),some(aEdite,livre)))).
 equiv(parent,and(personne,some(aEnfant,anything))).
+/* equiv(sculpture, and(objet, all(creePar, sculpteur))). test autoref */
+equiv(parentAuteur, and(parent, auteur)).
 
 /* identificateurs des concepts atomiques */
 cnamea(personne).
@@ -15,7 +17,9 @@ cnamea(nothing).
 cnamena(auteur).
 cnamena(editeur).
 cnamena(sculpteur).
+/* cnamena(sculpture). test autoref */
 cnamena(parent).
+cnamena
 
 /* identificateurs des instances */
 iname(michelAnge).
@@ -26,6 +30,7 @@ iname(joconde).
 
 /* identificateurs des rôles */
 rname(aCree).
+/* rname(creePar). test autoref */
 rname(aEcrit).
 rname(aEdite).
 rname(aEnfant).

@@ -1,23 +1,58 @@
+/* ----- CONCEPT ----- */
 /* TBox */
 concept(T, Q) :- setof(X, cnamena(X), CNAtom), member(T, CNAtom), concept(Q).
 /* ABox concepts */
 concept(T, Q) :- setof(X, iname(X), Inst), member(T, Inst), concept(Q).
 /* ABox roles */
 concept(T, U, V) :- setof(X, iname(X), Inst), member(T, Inst), member(U, Inst), setof(X, rname(X), Role), member(V, Role).
-
 concept(and(A, B)) :- concept(A), concept(B).
 concept(or(A, B)) :- concept(A), concept(B).
 concept(some(A, B)) :- setof(X, rname(X), Role), member(A, Role), concept(B).
 concept(all(A, B)) :- setof(X, rname(X), Role), member(A, Role), concept(B).
 concept(not(A)) :- concept(A).
 concept(A) :- setof(X, cnamea(X), CAtom), member(A, CAtom).
-
-autoref(Conc, Def, X) :- autoref(Conc, Def, X).
-autoref(Conc, _, Conc) :- write(user_error, "Concept auto-referant"), halt.
-autoref(Conc, _, X) :- X\==Conc.
-autoref(Conc, and(A, B), X) :- autoref(Conc, _, A), autoref(B).
+concept(A) :- setof(X, cnamena(X), CNAtom), member(A, CNAtom).
 
 
-traitement_Tbox([]).
-traitement_Tbox([T|Q]) :- traitement_Tbox(Q).
+/* ----- AUTOREF ----- */
+autoref(Concept, and(A, B)) :- autoref(Concept, A), autoref(Concept, B).
+autoref(Concept, or(A, B)) :- autoref(Concept, A, CNA), autoref(Concept, B, CNA).
+autoref(Concept, some(_, B)) :- autoref(Concept, B).
+autoref(Concept, all(_, B)) :- autoref(Concept, B).
+autoref(Concept, not(A)) :- autoref(Concept, A).
+autoref(Concept, Concept) :- write(user_error, "Erreur: Concept auto-referant\n"), halt.
+autoref(Concept, A) :- A\==Concept, setof(X, cnamena(X), CNAtom), member(A, CNAtom), setof(A, equiv(A, DefA), _), autoref(Concept, DefA).
+autoref(_, A) :- setof(X, cnamea(X), CAtom), member(A, CAtom).
+
+
+/* ----- NNF (fourni) ----- */
+nnf(not(and(C1,C2)),or(NC1,NC2)):- nnf(not(C1),NC1),
+nnf(not(C2),NC2),!.
+nnf(not(or(C1,C2)),and(NC1,NC2)):- nnf(not(C1),NC1),
+nnf(not(C2),NC2),!.
+nnf(not(all(R,C)),some(R,NC)):- nnf(not(C),NC),!.
+nnf(not(some(R,C)),all(R,NC)):- nnf(not(C),NC),!.
+nnf(not(not(X)),X):-!.
+nnf(not(X),not(X)):-!.
+nnf(and(C1,C2),and(NC1,NC2)):- nnf(C1,NC1),nnf(C2,NC2),!.
+nnf(or(C1,C2),or(NC1,NC2)):- nnf(C1,NC1), nnf(C2,NC2),!.
+nnf(some(R,C),some(R,NC)):- nnf(C,NC),!.
+nnf(all(R,C),all(R,NC)) :- nnf(C,NC),!.
+nnf(X,X).
+
+
+/* ----- TRAITEMENT TBOX ----- */
+remplace(and(A, B), and(NewA, NewB)) :- remplace(A, NewA), remplace(B, NewB).
+remplace(or(A, B), or(NewA, NewB)) :- remplace(A, NewA), remplace(B, NewB).
+remplace(some(A, B), some(A, NewB)) :- remplace(B, NewB).
+remplace(all(A, B), all(A, NewB)) :- remplace(B, NewB).
+remplace(not(A), not(NewA)) :- remplace(A, NewA).
+remplace(C, C) :- setof(X, cnamea(X), CAtom), member(C, CAtom).
+remplace(C, Def) :- setof(X, cnamena(X), CNAtom), member(C, CNAtom), setof(C, equiv(C, DefC), _), remplace(DefC, Def).
+
+traitement_Tbox([], []).
+traitement_Tbox([(Concept, Def)|Q], [(Concept, NewDef2)|TBox]) :- concept(Concept, Def), autoref(Concept, Def), remplace(Def, NewDef1), nnf(NewDef1, NewDef2), traitement_Tbox(Q, TBox).
+
+
+/* ----- TRAITEMENT ABOX ----- */
 traitement_Abox.
