@@ -55,4 +55,6 @@ traitement_Tbox([(Concept, Def)|Q], [(Concept, NewDef2)|TBox]) :- concept(Concep
 
 
 /* ----- TRAITEMENT ABOX ----- */
-traitement_Abox.
+traitement_Aboxcon([],[]).
+traitement_Aboxcon([(I,A)|R],[(NewI,NewA)|ABox]):-concept(I,A),setof(X,cnamea(X),L),member(A,L),nnf(A,NewA),nnf(I,NewI),traitement_Aboxcon(R,ABox).
+traitement_Aboxcon([(I,NA)|R],[(NewI,NewNA)|ABox]):-concept(I,NA),setof(X,cnamena(X),L),member(NA,L),replace(NA,ReNA),nnf(ReNA,NewNA),nnf(I,NewI),traitement_Aboxcon(R,ABox).
