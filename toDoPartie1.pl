@@ -51,10 +51,17 @@ remplace(C, C) :- setof(X, cnamea(X), CAtom), member(C, CAtom).
 remplace(C, Def) :- setof(X, cnamena(X), CNAtom), member(C, CNAtom), setof(C, equiv(C, DefC), _), remplace(DefC, Def).
 
 traitement_Tbox([], []).
-traitement_Tbox([(Concept, Def)|Q], [(Concept, NewDef2)|TBox]) :- concept(Concept, Def), autoref(Concept, Def), remplace(Def, NewDef1), nnf(NewDef1, NewDef2), traitement_Tbox(Q, TBox).
+traitement_Tbox([(Concept, Def)|Q], [(Concept, NewDef)|TBox]) :- concept(Concept, Def), autoref(Concept, Def), remplace(Def, NewD), nnf(NewD, NewDef), traitement_Tbox(Q, TBox).
 
 
 /* ----- TRAITEMENT ABOX ----- */
-traitement_Aboxcon([],[]).
-traitement_Aboxcon([(I,A)|R],[(NewI,NewA)|ABox]):-concept(I,A),setof(X,cnamea(X),L),member(A,L),nnf(A,NewA),nnf(I,NewI),traitement_Aboxcon(R,ABox).
-traitement_Aboxcon([(I,NA)|R],[(NewI,NewNA)|ABox]):-concept(I,NA),setof(X,cnamena(X),L),member(NA,L),replace(NA,ReNA),nnf(ReNA,NewNA),nnf(I,NewI),traitement_Aboxcon(R,ABox).
+traitement_Abox([],[],[],[]).
+traitement_Abox([(I,C)|Qc],[(I1, I2, R)|Qr],[(I,NewC)|ABoxC],[(I1, I2, R)|ABoxR]) :- 
+        concept(I,C), remplace(C, A), nnf(A, NewC), concept(I1, I2, R),
+        traitement_Abox(Qc, Qr, ABoxC, ABoxR).
+traitement_Abox([(I,C)|Qc],[],[(I,NewC)|ABoxC],[]) :- 
+        concept(I,C), remplace(C, A), nnf(A, NewC),
+        traitement_Abox(Qc, [], ABoxC, []).
+traitement_Abox([],[(I1, I2, R)|Qr],[],[(I1, I2, R)|ABoxR]) :- 
+        concept(I1, I2, R), traitement_Abox([], Qr, [], ABoxR).
+

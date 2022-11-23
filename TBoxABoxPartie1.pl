@@ -27,6 +27,8 @@ iname(david).
 iname(sonnets).
 iname(vinci).
 iname(joconde).
+iname(lovecraft).
+iname(cthulhu).
 
 /* identificateurs des rôles */
 rname(aCree).
@@ -41,11 +43,14 @@ inst(david,sculpture).
 inst(sonnets,livre).
 inst(vinci,personne).
 inst(joconde,objet).
+inst(lovecraft, auteur).
+inst(cthulhu, livre).
 
 /* instantiations de rôles */
 instR(michelAnge, david, aCree).
 instR(michelAnge, sonnets, aEcrit).
 instR(vinci, joconde, aCree).
+instR(lovecraft, cthulhu, aEcrit).
 
 /*
 T-Box
@@ -61,9 +66,12 @@ assertions de concepts
 (david,sculpture), 
 (sonnets,livre),
 (vinci,personne), 
-(joconde,objet)].
+(joconde,objet),
+(lovecraft, auteur),
+(cthulhu, livre)].
 assertions de rôles
 [(michelAnge, david, aCree), 
-(michelAnge, sonnet, aEcrit),
-(vinci,joconde, aCree)].
+(michelAnge, sonnets, aEcrit),
+(vinci,joconde, aCree),
+(lovecraft, cthulhu, aEcrit)].
 */
