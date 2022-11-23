@@ -13,3 +13,26 @@ PARTIE 1
 *traitemenT_TBox = conception(TBox) puis identificateurs atomiques et nnf (rappels partie 4)
 
 *traitemenT_ABox = conception(ABox) puis identificateurs atomiques et nnf (rappels partie 4)
+
+-----------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------
+
+PARTIE 2 
+
+1er cas = (I:C)
+- negatif => I:¬ C
+- recusivité sur les identificateurs des concepts non atomiques pour les remplacer par leurs definitions
+- on transforme l'espression obtenu par nnf(expression)
+
+
+2ème cas = C1 ⊓ C2 ⊑ ⊥
+-negatif => ∃ inst, inst: C1 ⊓ C2
+- recusivité sur les identificateurs des concepts non atomiques pour les remplacer par leurs definitions
+- on transforme l'espression obtenu par nnf(expression)
+
+
+fonction acquisition_prop_type1 :
+
+Abi => liste des assertions de concepts initiales de la Abox
+Abi1 => liste des assertions de concepts complétées après la soumission d'une proposition à demontrer
+Tbox => liste représentant la Tbox

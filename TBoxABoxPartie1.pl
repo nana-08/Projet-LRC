@@ -57,8 +57,7 @@ T-Box
 [(sculpteur,and(personne,some(aCree,sculpture))),
 (auteur,and(personne,some(aEcrit,livre))),
 (editeur,and(personne,and(not(some(aEcrit,livre)),some(aEdite,livre)))),
-(parent,and(personne,some(aEnfant,anything))),
-(parentAuteur, and(parent, auteur))].
+(parent,and(personne,some(aEnfant,anything)))].
 
 A-Box
 assertions de concepts
