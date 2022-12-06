@@ -1,9 +1,9 @@
 PARTIE 1 
 
-* concept = correction syntaxique et semantique de la TBox, ABox et expressions user.
+* concept = correction syntaxique et sémantique de la TBox, ABox et expressions user.
 
-- correction semantique : verifier tous les identificateurs de concepts (cnamea et cnamena), instance (iname) et rôles (rname)
-=> pour chaque identificateur on verifie qu il est dans la liste L avec setof(X,identificateur, L)
+- correction sémantique : vérifier tous les identificateurs de concepts (cnamea et cnamena), instance (iname) et rôles (rname)
+=> pour chaque identificateur on vérifie qu'il est dans la liste L avec setof(X, identificateur, L)
 
 - correction syntaxique : transformer grammaire en analyseur
 
@@ -21,18 +21,79 @@ PARTIE 2
 
 1er cas = (I:C)
 - negatif => I:¬ C
-- recusivité sur les identificateurs des concepts non atomiques pour les remplacer par leurs definitions
-- on transforme l'espression obtenu par nnf(expression)
+- récursivité sur les identificateurs des concepts non atomiques pour les remplacer par leurs définitions
+- on transforme l'expression obtenu par nnf(expression)
 
 
 2ème cas = C1 ⊓ C2 ⊑ ⊥
 -negatif => ∃ inst, inst: C1 ⊓ C2
-- recusivité sur les identificateurs des concepts non atomiques pour les remplacer par leurs definitions
-- on transforme l'espression obtenu par nnf(expression)
+- récursivité sur les identificateurs des concepts non atomiques pour les remplacer par leurs définitions
+- on transforme l'expression obtenu par nnf(expression)
 
 
 fonction acquisition_prop_type1 :
 
 Abi => liste des assertions de concepts initiales de la Abox
-Abi1 => liste des assertions de concepts complétées après la soumission d'une proposition à demontrer
+Abi1 => liste des assertions de concepts complétées après la soumission d'une proposition à démontrer
 Tbox => liste représentant la Tbox
+
+-----------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------
+
+PARTIE 3
+
+BUT = FAIRE UNE BOUCLE SUR ABE POUR DEMONTRER UNE proposition
+
+Abe = assertions de la Abox étendue
+la liste Lie => assertions du type (I,some(R,C))
+la liste Lpt => assertions du type (I,all(R,C))
+la liste Li => assertions du type (I,and(C1,C2))
+la liste Lu => assertions du type (I,or(C1,C2))
+la liste Ls => assertions restantes, à savoir les assertions du type (I,C) ou (I,not(C)), C
+étant un concept atomique.
+
+- regle ∃ (pour a : ∃R.C)   -> ajoute < a,b > :R et b :C 
+                            -> b = nouvel objet
+                            -> genere un new noeud
+                            (-> retirer regle utilisée)
+
+- regle ⋂ (pour a : C ⋂ D)  -> ajoute a :C et b :D
+                            -> genere un new noeud
+                            (-> retirer regle utilisée)
+
+- regle ⋃ (pour a : C ⋃ D)  -> genere deux new noeud
+                            -> le premier noeud -> a :C
+                            -> le deuxième noeud -> a :d
+                            -> 2 noeuds = racines des new branches
+                            (-> retirer regle utilisée)
+
+- regle ∀ (pour a : ∀R.C et < a,b > : R )   -> ajoute b :C
+                                            -> genere un new noeud
+
+
+
+If regle utilisée et new assertion -> test de Abe   -> clash (a: C et a: not C) => branche fermée et on arrete le developpement de la branche
+                                                    -> pas clash = appliquer new regle, boucle de resolution
+
+If aucune regle applicable -> branche complete -> echec de la resolution (pas demontrer la proposition)
+
+If toutes les branches fermées -> insatisfiable et proposition demontrée
+
+
+complete_some = recherche de concept (I,some(R,C)) dans Lie -> si reussi : applique la regle ∃.
+
+transformation_and = recherche de concept (I,and(C1,C2)) dans Li -> si reussi : applique la regle ⋂.
+
+deduction_all = recherche de concept (I,all(R,C)) dans Lpt -> si reussi : applique la regle ∀.  
+
+transformation_or = recherche de concept (I,or(C1,C2)) dans Lu -> si reussi : applique la regle ⋃.
+
+Pour evolution =  - A représente une nouvelle assertion de concepts à intégrer dans l’une des listes Lie, Lpt,
+                    Li, Lu ou Ls qui décrivent les assertions de concepts de la Abox étendue et Lie1, Lpt1,
+                    Li1,Lu1 et Ls1 représentent les nouvelles listes mises à jour.
+
+
+affiche_evolution_Abox =    - affiche l’évolution d’un état de la Abox étendue
+                            - 6 premiers parametres = depart
+                            - 6 derniers parametres = retour
+                            - affichage : les différentes assertions en notation infixe avec symboles mathématiques (∃, ⊔, ¬, ∀, ⊓)

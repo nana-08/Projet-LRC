@@ -1,3 +1,5 @@
+/* --------- PROGRAMME --------- */
+
 programme :-premiere_etape(Tbox,Abi,Abr),deuxieme_etape(Abi,Abi1,Tbox),troisieme_etape(Abi1,Abr).
 
 /* --------- PARTIE 1 --------- */
@@ -23,7 +25,8 @@ acquisition_prop_type1([A|B],[D|Abi1],Tbox):-recursivite(not(A),Newprop),nnf(New
 recursivite([],[]).
 recursivite([X|Q],[NewRes|Res]):-remplace(X,NewRes),recursivite(Q,Res).
 
-/* acquisition_prop_type1 */
+/* acquisition_prop_type2 */
+
 acquisition_prop_type2([],[],Tbox).
 acquisition_prop_type2([(C1,C2)|B],[D|Abi1],Tbox):-recursivite(and(C1,C2),Newprop),nnf(Newprop,D),acquisition_prop_type2(B,Abi1,Tbox).
 
