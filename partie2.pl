@@ -4,12 +4,12 @@ nl, read(R), suite(R,Abi,Abe,Tbox).
 
 suite(1,Abi,Abe,Tbox) :- acquisition_prop_type1(Abi,Abe,Tbox),!.
 suite(2,Abi,Abe,Tbox) :- acquisition_prop_type2(Abi,Abe,Tbox),!.
-suite(R,Abi,Abe,Tbox) :- nl, write('Cette reponse est incorrecte.'),nl,saisie_et_traitement_prop_a_demontrer(Abi,Abe,Tbox).
+suite(_,Abi,Abe,Tbox) :- nl, write('Cette reponse est incorrecte.'),nl,saisie_et_traitement_prop_a_demontrer(Abi,Abe,Tbox).
 
 
 /* acquisition_prop_type1 */
 
-acquisition_prop_type1(Abi,[(I, NotC)|Abi],TBox) :- nl, write("Entrez l'instance :"), nl, read(I), nl, write("Entrez le concept :"), nl, read(C),
+acquisition_prop_type1(Abi,[(I, NotC)|Abi],_) :- nl, write("Entrez l'instance :"), nl, read(I), nl, write("Entrez le concept :"), nl, read(C),
                                         remplace(C, NewC), nnf(not(NewC), NotC).
 
 /* acquisition_prop_type2 */
@@ -36,7 +36,7 @@ chiffre_car(7,'7').
 chiffre_car(8,'8').
 chiffre_car(9,'9').
 
-acquisition_prop_type2(Abi,[(I, C1etC2)|Abi],Tbox):- genere(I), nl, write("Entrez C1 :"), nl, read(C1), nl, write("Entrez C2 :"), nl, read(C2),
+acquisition_prop_type2(Abi,[(I, C1etC2)|Abi],_):- genere(I), nl, write("Entrez C1 :"), nl, read(C1), nl, write("Entrez C2 :"), nl, read(C2),
                                             remplace(C1, NewC1), remplace(C2, NewC2), nnf(and(NewC1, NewC2), C1etC2).
 
 

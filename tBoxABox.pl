@@ -29,6 +29,7 @@ iname(vinci).
 iname(joconde).
 iname(lovecraft).
 iname(cthulhu).
+iname(pierre).
 
 /* identificateurs des rôles */
 rname(aCree).
@@ -45,6 +46,8 @@ inst(vinci,personne).
 inst(joconde,objet).
 inst(lovecraft, auteur).
 inst(cthulhu, livre).
+inst(pierre, parent).
+inst(pierre, editeur).
 
 /* instantiations de rôles */
 instR(michelAnge, david, aCree).
@@ -52,25 +55,26 @@ instR(michelAnge, sonnets, aEcrit).
 instR(vinci, joconde, aCree).
 instR(lovecraft, cthulhu, aEcrit).
 
-/*
-T-Box
-[(sculpteur,and(personne,some(aCree,sculpture))),
-(auteur,and(personne,some(aEcrit,livre))),
-(editeur,and(personne,and(not(some(aEcrit,livre)),some(aEdite,livre)))),
-(parent,and(personne,some(aEnfant,anything)))].
 
-A-Box
-assertions de concepts
-[(michelAnge,personne), 
-(david,sculpture), 
-(sonnets,livre),
-(vinci,personne), 
-(joconde,objet),
-(lovecraft, auteur),
-(cthulhu, livre)].
-assertions de rôles
-[(michelAnge, david, aCree), 
-(michelAnge, sonnets, aEcrit),
-(vinci,joconde, aCree),
-(lovecraft, cthulhu, aEcrit)].
+/*
+tBox : [(sculpteur,and(personne,some(aCree,sculpture))),
+        (auteur,and(personne,some(aEcrit,livre))),
+        (editeur,and(personne,and(not(some(aEcrit,livre)),some(aEdite,livre)))),
+        (parent,and(personne,some(aEnfant,anything))),
+        (parentAuteur, and(parent, auteur))].
+
+aBoxC : [(michelAnge,personne), 
+        (david,sculpture), 
+        (sonnets,livre),
+        (vinci,personne), 
+        (joconde,objet),
+        (lovecraft, auteur),
+        (cthulhu, livre),
+        (pierre, parent),
+        (pierre, editeur)].
+
+aBoxR : [(michelAnge, david, aCree), 
+        (michelAnge, sonnets, aEcrit),
+        (vinci,joconde, aCree),
+        (lovecraft, cthulhu, aEcrit)].
 */
