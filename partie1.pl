@@ -20,7 +20,7 @@ autoref(Concept, or(A, B)) :- autoref(Concept, A, CNA), autoref(Concept, B, CNA)
 autoref(Concept, some(_, B)) :- autoref(Concept, B).
 autoref(Concept, all(_, B)) :- autoref(Concept, B).
 autoref(Concept, not(A)) :- autoref(Concept, A).
-autoref(Concept, Concept) :- write(user_error, "Erreur: Concept auto-referant\n"), halt.
+autoref(Concept, Concept) :- write(user_error, "Erreur: Concept auto-referant présent dans la TBox d'origine.\n"), halt.
 autoref(Concept, A) :- A\==Concept, setof(X, cnamena(X), CNAtom), member(A, CNAtom), setof(A, equiv(A, DefA), _), autoref(Concept, DefA).
 autoref(_, A) :- setof(X, cnamea(X), CAtom), member(A, CAtom).
 
