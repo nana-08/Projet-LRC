@@ -10,7 +10,8 @@ suite(_,Abi,Abe,Tbox) :- nl, write('Cette reponse est incorrecte.'),nl,saisie_et
 /* acquisition_prop_type1 */
 
 acquisition_prop_type1(Abi,[(I, NotC)|Abi],_) :- nl, write("Entrez l'instance :"), nl, read(I), nl, write("Entrez le concept :"), nl, read(C),
-                                        remplace(C, NewC), nnf(not(NewC), NotC).
+                                        remplace(C, NewC), nnf(not(NewC), NotC),
+                                        write("On cherche à démontrer la proposition : "),write(I),write(" : "),lisibilite(C),nl.
 
 /* acquisition_prop_type2 */
 
@@ -37,6 +38,8 @@ chiffre_car(8,'8').
 chiffre_car(9,'9').
 
 acquisition_prop_type2(Abi,[(I, C1etC2)|Abi],_):- genere(I), nl, write("Entrez C1 :"), nl, read(C1), nl, write("Entrez C2 :"), nl, read(C2),
-                                            remplace(C1, NewC1), remplace(C2, NewC2), nnf(and(NewC1, NewC2), C1etC2).
+                                            remplace(C1, NewC1), remplace(C2, NewC2), nnf(and(NewC1, NewC2), C1etC2),nl,nl,
+                                            write("--------- ON VEUT DEMONTRER LA PROPOSITION : "),write("("),lisibilite(C1),write(") ⊓ ("),lisibilite(C2),write(") ⊑ ⊥"),nl,
+                                            write("On ajoute à la ABox l'assertion suivante : "),nl,write(I),write(" : "),lisibilite(C1etC2),nl,nl.
 
 
