@@ -7,22 +7,23 @@ tri_Abox([(I, or(C1,C2))|Q],Lie,Lpt,Li,[(I, or(C1,C2))|Lu],Ls) :- tri_Abox(Q,Lie
 tri_Abox([A|Q],Lie,Lpt,Li,Lu,[A|Ls]) :- tri_Abox(Q,Lie,Lpt,Li,Lu,Ls).
 
 /* --------- resolution --------- */
-resolution(Lie,Lpt,Li,Lu,Ls,Abr) :- complete_some(Lie,Lpt,Li,Lu,Ls,Abr),
-                                    transformation_and(Lie,Lpt,Li,Lu,Ls,Abr),
-                                    deduction_all(Lie,Lpt,Li,Lu,Ls,Abr),
-                                    transformation_or(Lie,Lpt,Li,Lu,Ls,Abr),
-                                    nl,write("Aucun clash n'a été détecté. La proposition initiale n'a pas pu être démontrée."),nl,abort.
+resolution(Lie,Lpt,Li,Lu,Ls,Abr) :- write("--------- PASSAGE DANS LE NOEUD ∃ ---------"),nl,complete_some(Lie,Lpt,Li,Lu,Ls,Abr),
+                                    write("--------- PASSAGE DANS LE NOEUD ⊓ ---------"),nl,transformation_and(Lie,Lpt,Li,Lu,Ls,Abr),
+                                    write("--------- PASSAGE DANS LE NOEUD ∀ ---------"),nl,deduction_all(Lie,Lpt,Li,Lu,Ls,Abr),
+                                    write("--------- PASSAGE DANS LE NOEUD ⊔ ---------"),nl,transformation_or(Lie,Lpt,Li,Lu,Ls,Abr),
+                                    nl,write("Aucun clash n'a été détecté. La proposition initiale n'a pas pu être démontrée."),nl,
+                                    write("############ ECHEC ############"),nl,abort.
 
 /* --------- complete_some --------- */
 complete_some([],_,_,_,_,_).
-complete_some([(A,some(R,C))|Q],Lpt,Li,Lu,Ls,Abr) :- write(A),write(" : "),lisibilite(some(R,C)),genere(B), 
+complete_some([(A,some(R,C))|Q],Lpt,Li,Lu,Ls,Abr) :- write("# On considère l'assertion  "),write(A),write(" : "),lisibilite(some(R,C)),nl,genere(B), 
                                             evolue((B,C), Q, Lpt, Li, Lu, Ls, Lie1, Lpt1, Li1, Lu1, Ls1), 
                                             affiche_evolution_Abox(Ls, [(A,some(R,C))|Q], Lpt, Li, Lu, Abr, Ls1, Lie1, Lpt1, Li1, Lu1, [(A,B,R)|Abr]),
                                             resolution(Lie1,Lpt1,Li1,Lu1,Ls1,[(A,B,R)|Abr]).  
 
 /* --------- transformation_and --------- */
 transformation_and(_,_,[],_,_,_).
-transformation_and(Lie,Lpt,[(A,and(C1,C2))|Q],Lu,Ls,Abr) :- write(A),write(" : "),lisibilite(and(C1,C2)),
+transformation_and(Lie,Lpt,[(A,and(C1,C2))|Q],Lu,Ls,Abr) :- write("# On considère l'assertion  "),write(A),write(" : "),lisibilite(and(C1,C2)),nl,
                                             evolue((A,C1), Lie, Lpt, Q, Lu, Ls, Lie1, Lpt1, Li1, Lu1, Ls1), 
                                             evolue((A,C2),Lie1, Lpt1, Li1, Lu1, Ls1, Lie2, Lpt2, Li2, Lu2, Ls2), 
                                             affiche_evolution_Abox(Ls, Lie, Lpt, [(A,and(C1,C2))|Q], Lu, Abr, Ls2, Lie2, Lpt2, Li2, Lu2, Abr),
@@ -30,16 +31,16 @@ transformation_and(Lie,Lpt,[(A,and(C1,C2))|Q],Lu,Ls,Abr) :- write(A),write(" : "
 
 /* --------- deduction_all --------- */
 deduction_all(_,[],_,_,_,_).
-deduction_all(Lie,[(A,all(R,C))|Q],Li,Lu,Ls,Abr) :- member((A,B,R),Abr), write(A),write(" : "),lisibilite(all(R,C)),
+deduction_all(Lie,[(A,all(R,C))|Q],Li,Lu,Ls,Abr) :- member((A,B,R),Abr), write("# On considère l'assertion  "),write(A),write(" : "),lisibilite(all(R,C)),nl,
                                             evolue((B,C), Lie, Q, Li, Lu, Ls, Lie1, Lpt1, Li1, Lu1, Ls1), 
                                             affiche_evolution_Abox(Ls, Lie, [(A,all(R,C))|Q], Li, Lu, Abr, Ls1, Lie1, Lpt1, Li1, Lu1,Abr),
                                             resolution(Lie1,Lpt1,Li1,Lu1,Ls1,Abr).  
 
 /* --------- transformation_or --------- */
 transformation_or(_,_,_,[],_,_).
-transformation_or(Lie,Lpt,Li,[(A,or(C1,C2))|Q],Ls,Abr) :- write(A),write(" : "),lisibilite(or(C1,C2)),
-                                            evolue((A,C1),Q, Lpt, Li, Q, Ls, Lie1, Lpt1, Li1, Lu1, Ls1), 
-                                            evolue((A,C2),Q, Lpt, Li, Q, Ls, Lie2, Lpt2, Li2, Lu2, Ls2), 
+transformation_or(Lie,Lpt,Li,[(A,or(C1,C2))|Q],Ls,Abr) :- write("# On considère l'assertion  "),write(A),write(" : "),lisibilite(or(C1,C2)),nl,
+                                            evolue((A,C1),Lie, Lpt, Li, Q, Ls, Lie1, Lpt1, Li1, Lu1, Ls1), 
+                                            evolue((A,C2),Lie, Lpt, Li, Q, Ls, Lie2, Lpt2, Li2, Lu2, Ls2), 
                                             affiche_evolution_Abox(Ls, Lie, Lpt, Li, [(A,or(C1,C2))|Q], Abr, Ls1, Lie1, Lpt1, Li1, Lu1, Abr),
                                             affiche_evolution_Abox(Ls, Lie, Lpt, Li, [(A,or(C1,C2))|Q], Abr, Ls2, Lie2, Lpt2, Li2, Lu2, Abr),
                                             resolution(Lie1,Lpt1,Li1,Lu1,Ls1,Abr),
@@ -66,19 +67,19 @@ lisibiliteAbr([(A,B,R)]) :- write("< "),write(A),write(", "),write(B),write(" > 
 lisibiliteAbr([(A,B,R)|Q]) :- write("< "),write(A),write(", "),write(B),write(" > : "),write(R),write("; "),lisibiliteAbr(Q).
 
 /* --------- evolue --------- */
-evolue(A, Lie, Lpt, Li, Lu, Ls, Lie1, Lpt1, Li1, Lu1, Ls1) :- clash(A,Lie),clash(A,Lpt), 
-                                            clash(A,Li), clash(A,Lu), clash(A,Ls),
+evolue(A, Lie, Lpt, Li, Lu, Ls, Lie1, Lpt1, Li1, Lu1, Ls1) :- clash(A,Lie),clash(A,Lpt),clash(A,Li),clash(A,Lu),clash(A,Ls),
+                                            concatene([],Lie,Lie1),concatene([],Lpt,Lpt1),concatene([],Li,Li1),concatene([],Lu,Lu1),concatene([],Ls,Ls1),
                                             tri_Abox([A],Lie1,Lpt1,Li1,Lu1,Ls1).
 
 /* --------- affiche_evolution_Abox --------- */
-affiche_evolution_Abox(Ls, Lie, Lpt, Li, Lu, Abr, Ls1, Lie1, Lpt1, Li1, Lu1, Abr1) :- nl, write("Etat de la A-box au depart:"), nl,
+affiche_evolution_Abox(Ls, Lie, Lpt, Li, Lu, Abr, Ls1, Lie1, Lpt1, Li1, Lu1, Abr1) :- write("# ETAT DE LA ABOX AVANT INSERTION :"), nl,
                                             write("Ls = ["),lisibiliteListe(Ls),write("] ; "),
                                             write("Lie = ["),lisibiliteListe(Lie),write("] ; "),
                                             write("Lpt = ["),lisibiliteListe(Lpt),write("] ; "),
                                             write("Li = ["),lisibiliteListe(Li),write("] ; "),
                                             write("Lu = ["),lisibiliteListe(Lu),write("] ; "),
                                             write("Abr = ["),lisibiliteAbr(Abr),write("] "),nl,nl,
-                                            write("Etat de la A-box après assertion:"), nl,
+                                            write("# ETAT DE LA ABOX APRES INSERTION :"), nl,
                                             write("Ls = ["),lisibiliteListe(Ls1),write("] ; "),
                                             write("Lie = ["),lisibiliteListe(Lie1),write("] ; "),
                                             write("Lpt = ["),lisibiliteListe(Lpt1),write("] ; "),

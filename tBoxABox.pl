@@ -71,7 +71,7 @@ aBoxC : [(michelAnge,personne),
         (lovecraft, auteur),
         (cthulhu, livre),
         (pierre, parent),
-        (pierre, editeur)].
+        (pierre, auteur)].
 
 aBoxR : [(michelAnge, david, aCree), 
         (michelAnge, sonnets, aEcrit),

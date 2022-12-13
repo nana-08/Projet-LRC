@@ -14,7 +14,7 @@ premiere_etape(Tbox,Abi,Abr) :-
                     (lovecraft, auteur),
                     (cthulhu, livre),
                     (pierre, parent),
-                    (pierre, editeur)],[(michelAnge, david, aCree), 
+                    (pierre, auteur)],[(michelAnge, david, aCree), 
                                         (michelAnge, sonnets, aEcrit),
                                         (vinci,joconde, aCree),
                                         (lovecraft, cthulhu, aEcrit)],Abi,Abr).
@@ -23,7 +23,8 @@ deuxieme_etape(Abi,Abe,Tbox) :- saisie_et_traitement_prop_a_demontrer(Abi,Abe,Tb
 
 troisieme_etape(Abi,Abr) :- tri_Abox(Abi,Lie,Lpt,Li,Lu,Ls), 
                             resolution(Lie,Lpt,Li,Lu,Ls,Abr),
-                            nl,write("Youpiiiii, on a démontré la proposition initiale !!!").
+                            nl,write("Youpiiiii, on a démontré la proposition initiale !!!"),nl,
+                            write("############ SUCCES ############").
 
 programme(Abe) :-   premiere_etape(Tbox,Abi,Abr), 
                     deuxieme_etape(Abi,Abe,Tbox),

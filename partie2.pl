@@ -11,7 +11,8 @@ suite(_,Abi,Abe,Tbox) :- nl, write('Cette reponse est incorrecte.'),nl,saisie_et
 
 acquisition_prop_type1(Abi,[(I, NotC)|Abi],_) :- nl, write("Entrez l'instance :"), nl, read(I), nl, write("Entrez le concept :"), nl, read(C),
                                         remplace(C, NewC), nnf(not(NewC), NotC),
-                                        write("On cherche à démontrer la proposition : "),write(I),write(" : "),lisibilite(C),nl.
+                                        write("--------- ON VEUT DEMONTRER LA PROPOSITION :  "),write(I),write(" : "),lisibilite(C),nl,
+                                        write("On ajoute à la ABox l'assertion suivante : "),nl,write(I),write(" : "),lisibilite(NotC),nl,nl.
 
 /* acquisition_prop_type2 */
 
