@@ -24,7 +24,8 @@ complete_some([(A,some(R,C))|Q],Lpt,Li,Lu,Ls,Abr) :- write("# On considère l'as
 /* --------- transformation_and --------- */
 transformation_and(_,_,[],_,_,_).
 transformation_and(Lie,Lpt,[(A,and(C1,C2))|Q],Lu,Ls,Abr) :- write("# On considère l'assertion  "),write(A),write(" : "),lisibilite(and(C1,C2)),nl,
-                                            evolue((A,C1), Lie, Lpt, Q, Lu, Ls, Lie1, Lpt1, Li1, Lu1, Ls1), 
+                                            write("coucou"),nl,
+                                            evolue((A,C1), Lie, Lpt, Q, Lu, Ls, Lie1, Lpt1, Li1, Lu1, Ls1), write("coucou"),nl,
                                             evolue((A,C2),Lie1, Lpt1, Li1, Lu1, Ls1, Lie2, Lpt2, Li2, Lu2, Ls2), 
                                             affiche_evolution_Abox(Ls, Lie, Lpt, [(A,and(C1,C2))|Q], Lu, Abr, Ls2, Lie2, Lpt2, Li2, Lu2, Abr),
                                             resolution(Lie2,Lpt2,Li2,Lu2,Ls2,Abr).  
@@ -47,16 +48,18 @@ transformation_or(Lie,Lpt,Li,[(A,or(C1,C2))|Q],Ls,Abr) :- write("# On considère
                                             resolution(Lie2,Lpt2,Li2,Lu2,Ls2,Abr). 
 
 /* --------- clash --------- */
-clash((I,C), L) :- nnf(not(C), NonC),member((I, NonC), L),write("Clash ! Impossible de continuer."), nl, abort.
+clash((I,C), L) :- nnf(not(C), NonC),member((I, NonC), L),write("Clash ! Impossible d'ajouter à l'ABox la négation de la proposition."),nl,
+                                            write("SUPER ! La proposition initiale est démontrée !"),nl,write("############ SUCCES ############"),nl, abort.
 clash((I,C), L) :- nnf(not(C), NonC),not(member((I,NonC),L)).
 
 /* --------- notation préfixe ---> infixe + symboles --------- */
 lisibilite(and(C1,C2)) :- write("("),lisibilite(C1),write(") ⊓ ("),lisibilite(C2),write(")").
 lisibilite(or(C1,C2)) :- lisibilite(C1),write(" ⊔ "),lisibilite(C2).
-lisibilite(some(R,C)) :- write("∃"),lisibilite(R),write("."),lisibilite(C).
-lisibilite(all(R,C)) :- write("∀"),lisibilite(R),write("."),lisibilite(C).
+lisibilite(some(R,C)) :- write("∃"),write(R),write("."),lisibilite(C).
+lisibilite(all(R,C)) :- write("∀"),write(R),write("."),lisibilite(C).
 lisibilite(not(F)) :- write("¬"),lisibilite(F).
-lisibilite(F) :- write(F).
+lisibilite(F) :- setof(X, cnamea(X), CAtom), member(F, CAtom),write(F).
+lisibilite(F) :- setof(X, cnamena(X), CNAtom), member(F, CNAtom),write(F).
 
 lisibiliteListe([]).
 lisibiliteListe([(I, F)]) :- write(I),write(" : "),lisibilite(F).
