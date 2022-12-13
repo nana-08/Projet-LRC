@@ -24,9 +24,9 @@ complete_some([(A,some(R,C))|Q],Lpt,Li,Lu,Ls,Abr) :- write("# On considère l'as
 /* --------- transformation_and --------- */
 transformation_and(_,_,[],_,_,_).
 transformation_and(Lie,Lpt,[(A,and(C1,C2))|Q],Lu,Ls,Abr) :- write("# On considère l'assertion  "),write(A),write(" : "),lisibilite(and(C1,C2)),nl,
-                                            write("coucou"),nl,
-                                            evolue((A,C1), Lie, Lpt, Q, Lu, Ls, Lie1, Lpt1, Li1, Lu1, Ls1), write("coucou"),nl,
-                                            evolue((A,C2),Lie1, Lpt1, Li1, Lu1, Ls1, Lie2, Lpt2, Li2, Lu2, Ls2), 
+                                            write("coucou1"),nl,
+                                            evolue((A,C1), Lie, Lpt, Q, Lu, Ls, Lie1, Lpt1, Li1, Lu1, Ls1), write("coucou1"),nl,
+                                            evolue((A,C2),Lie1, Lpt1, Li1, Lu1, Ls1, Lie2, Lpt2, Li2, Lu2, Ls2), write("coucou"),nl,
                                             affiche_evolution_Abox(Ls, Lie, Lpt, [(A,and(C1,C2))|Q], Lu, Abr, Ls2, Lie2, Lpt2, Li2, Lu2, Abr),
                                             resolution(Lie2,Lpt2,Li2,Lu2,Ls2,Abr).  
 
