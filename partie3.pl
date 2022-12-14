@@ -17,16 +17,15 @@ resolution(Lie,Lpt,Li,Lu,Ls,Abr) :- write("--------- PASSAGE DANS LE NOEUD ∃ -
 /* --------- complete_some --------- */
 complete_some([],_,_,_,_,_).
 complete_some([(A,some(R,C))|Q],Lpt,Li,Lu,Ls,Abr) :- write("# On considère l'assertion  "),write(A),write(" : "),lisibilite(some(R,C)),nl,genere(B), 
-                                            evolue((B,C), Q, Lpt, Li, Lu, Ls, Lie1, Lpt1, Li1, Lu1, Ls1), 
+                                            evolue((B,C), Q, Lpt, Li, Lu, Ls, Lie1, Lpt1, Li1, Lu1, Ls1),
                                             affiche_evolution_Abox(Ls, [(A,some(R,C))|Q], Lpt, Li, Lu, Abr, Ls1, Lie1, Lpt1, Li1, Lu1, [(A,B,R)|Abr]),
                                             resolution(Lie1,Lpt1,Li1,Lu1,Ls1,[(A,B,R)|Abr]).  
 
 /* --------- transformation_and --------- */
 transformation_and(_,_,[],_,_,_).
 transformation_and(Lie,Lpt,[(A,and(C1,C2))|Q],Lu,Ls,Abr) :- write("# On considère l'assertion  "),write(A),write(" : "),lisibilite(and(C1,C2)),nl,
-                                            write("coucou1"),nl,
-                                            evolue((A,C1), Lie, Lpt, Q, Lu, Ls, Lie1, Lpt1, Li1, Lu1, Ls1), write("coucou1"),nl,
-                                            evolue((A,C2),Lie1, Lpt1, Li1, Lu1, Ls1, Lie2, Lpt2, Li2, Lu2, Ls2), write("coucou"),nl,
+                                            evolue((A,C1), Lie, Lpt, Q, Lu, Ls, Lie1, Lpt1, Li1, Lu1, Ls1),
+                                            evolue((A,C2),Lie1, Lpt1, Li1, Lu1, Ls1, Lie2, Lpt2, Li2, Lu2, Ls2),
                                             affiche_evolution_Abox(Ls, Lie, Lpt, [(A,and(C1,C2))|Q], Lu, Abr, Ls2, Lie2, Lpt2, Li2, Lu2, Abr),
                                             resolution(Lie2,Lpt2,Li2,Lu2,Ls2,Abr).  
 
@@ -58,8 +57,7 @@ lisibilite(or(C1,C2)) :- lisibilite(C1),write(" ⊔ "),lisibilite(C2).
 lisibilite(some(R,C)) :- write("∃"),write(R),write("."),lisibilite(C).
 lisibilite(all(R,C)) :- write("∀"),write(R),write("."),lisibilite(C).
 lisibilite(not(F)) :- write("¬"),lisibilite(F).
-lisibilite(F) :- setof(X, cnamea(X), CAtom), member(F, CAtom),write(F).
-lisibilite(F) :- setof(X, cnamena(X), CNAtom), member(F, CNAtom),write(F).
+lisibilite(F) :- write(F).
 
 lisibiliteListe([]).
 lisibiliteListe([(I, F)]) :- write(I),write(" : "),lisibilite(F).
@@ -70,9 +68,11 @@ lisibiliteAbr([(A,B,R)]) :- write("< "),write(A),write(", "),write(B),write(" > 
 lisibiliteAbr([(A,B,R)|Q]) :- write("< "),write(A),write(", "),write(B),write(" > : "),write(R),write("; "),lisibiliteAbr(Q).
 
 /* --------- evolue --------- */
-evolue(A, Lie, Lpt, Li, Lu, Ls, Lie1, Lpt1, Li1, Lu1, Ls1) :- clash(A,Lie),clash(A,Lpt),clash(A,Li),clash(A,Lu),clash(A,Ls),
-                                            concatene([],Lie,Lie1),concatene([],Lpt,Lpt1),concatene([],Li,Li1),concatene([],Lu,Lu1),concatene([],Ls,Ls1),
-                                            tri_Abox([A],Lie1,Lpt1,Li1,Lu1,Ls1).
+evolue((I, some(R,C)), Lie, Lpt, Li, Lu, Ls, [(I,some(R,C))|Lie], Lpt, Li, Lu, Ls) :- clash((I, some(R,C)),Lie).
+evolue((I, all(R,C)), Lie, Lpt, Li, Lu, Ls, Lie, [(I, all(R,C))|Lpt], Li, Lu, Ls) :- clash((I, all(R,C)),Lpt).
+evolue((I, and(R,C)), Lie, Lpt, Li, Lu, Ls, Lie, Lpt, [(I, and(R,C))|Li], Lu, Ls) :- clash((I, and(R,C)),Li).
+evolue((I, or(R,C)), Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, [(I, or(R,C))|Lu], Ls) :- clash((I, or(R,C)),Lu).
+evolue(A, Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, Lu, [A|Ls]) :- write("passage pour Ls "),write(A),nl,clash(A,Ls).
 
 /* --------- affiche_evolution_Abox --------- */
 affiche_evolution_Abox(Ls, Lie, Lpt, Li, Lu, Abr, Ls1, Lie1, Lpt1, Li1, Lu1, Abr1) :- write("# ETAT DE LA ABOX AVANT INSERTION :"), nl,
