@@ -16,7 +16,7 @@ acquisition_prop_type1(Abi,[(I, NotC)|Abi],_) :- nl, write("Entrez l'instance :"
 
 /* acquisition_prop_type2 */
 
-/* generation d'un nouvel identificateur d'instance instance */
+/* generation d'un nouvel identificateur d'instance */
 
 concatene([],L1,L1).
 concatene([X|Y],L1,[X|L2]) :- concatene(Y,L1,L2).

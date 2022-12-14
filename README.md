@@ -1,2 +1,0 @@
-# Projet-LRC
-blabla

@@ -53,7 +53,6 @@ traitement_Tbox([(Concept, Def)|Q], [(Concept, NewDef)|TBox]) :- concept(Concept
 
 
 /* ----- TRAITEMENT ABOX ----- */
-
 traitement_Abox([],[],[],[]).
 traitement_Abox([(I,C)|Qc],[(I1, I2, R)|Qr],[(I,NewC)|ABoxC],[(I1, I2, R)|ABoxR]) :- concept(I,C), remplace(C, A), nnf(A, NewC), concept(I1, I2, R),traitement_Abox(Qc, Qr, ABoxC, ABoxR).
 traitement_Abox([(I,C)|Qc],[],[(I,NewC)|ABoxC],[]) :-concept(I,C), remplace(C, A), nnf(A, NewC),traitement_Abox(Qc, [], ABoxC, []).

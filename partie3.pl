@@ -76,17 +76,17 @@ evolue(A, Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, Lu, [A|Ls]) :- clash(A,Ls).
 
 /* --------- affiche_evolution_Abox --------- */
 affiche_evolution_Abox(Ls, Lie, Lpt, Li, Lu, Abr, Ls1, Lie1, Lpt1, Li1, Lu1, Abr1) :- nl,nl,write("--------- # ETAT DE LA ABOX AVANT INSERTION : ---------"),nl,nl,
-                                            write("Ls = ["),lisibiliteListe(Ls),write("] ; "),nl,
-                                            write("Lie = ["),lisibiliteListe(Lie),write("] ; "),nl,
-                                            write("Lpt = ["),lisibiliteListe(Lpt),write("] ; "),nl,
-                                            write("Li = ["),lisibiliteListe(Li),write("] ; "),nl,
-                                            write("Lu = ["),lisibiliteListe(Lu),write("] ; "),nl,
-                                            write("Abr = ["),lisibiliteAbr(Abr),write("] "),nl,nl,
+                                            write("Ls = ["),lisibiliteListe(Ls),write("]"),nl,
+                                            write("Lie = ["),lisibiliteListe(Lie),write("]"),nl,
+                                            write("Lpt = ["),lisibiliteListe(Lpt),write("]"),nl,
+                                            write("Li = ["),lisibiliteListe(Li),write("]"),nl,
+                                            write("Lu = ["),lisibiliteListe(Lu),write("]"),nl,
+                                            write("Abr = ["),lisibiliteAbr(Abr),write("]"),nl,nl,
                                             write("--------- # ETAT DE LA ABOX APRES INSERTION : ---------"),nl,nl,
-                                            write("Ls = ["),lisibiliteListe(Ls1),write("] ; "),nl,
-                                            write("Lie = ["),lisibiliteListe(Lie1),write("] ; "),nl,
-                                            write("Lpt = ["),lisibiliteListe(Lpt1),write("] ; "),nl,
-                                            write("Li = ["),lisibiliteListe(Li1),write("] ; "),nl,
-                                            write("Lu = ["),lisibiliteListe(Lu1),write("] ; "),nl,
+                                            write("Ls = ["),lisibiliteListe(Ls1),write("]"),nl,
+                                            write("Lie = ["),lisibiliteListe(Lie1),write("]"),nl,
+                                            write("Lpt = ["),lisibiliteListe(Lpt1),write("]"),nl,
+                                            write("Li = ["),lisibiliteListe(Li1),write("]"),nl,
+                                            write("Lu = ["),lisibiliteListe(Lu1),write("]"),nl,
                                             write("Abr = ["),lisibiliteAbr(Abr1),write("]"),nl,nl.
 
