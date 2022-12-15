@@ -14,6 +14,7 @@ acquisition_prop_type1(Abi,[(I, NotC)|Abi],_) :- nl, write("Entrez l'instance :"
                                         write("--------- ON VEUT DEMONTRER LA PROPOSITION :  "),write(I),write(" : "),lisibilite(C),nl,nl,
                                         write("On ajoute à la ABox l'assertion suivante : "),write(I),write(" : "),lisibilite(NotC),nl,nl.
 
+
 /* acquisition_prop_type2 */
 
 /* generation d'un nouvel identificateur d'instance */
